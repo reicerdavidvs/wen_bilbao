@@ -2717,7 +2717,7 @@ button,
 }
 
 .scheme_original .sc_call_to_action .sc_call_to_action_descr {
-	color: #656c77
+	color: #fffaf2
 }
 
 .scheme_original .sc_call_to_action_accented {
@@ -2742,7 +2742,7 @@ button,
 }
 
 .scheme_original .sc_call_to_action .sc_item_subtitle {
-	color: #c5a272
+	color: #f2e3ce
 }
 
 .scheme_original .sc_call_to_action .sc_item_buttons>.sc_item_button+.sc_item_button a {
@@ -7522,7 +7522,7 @@ button,
 	background-position: center !important;
 	background-repeat: no-repeat !important;
 	background-size: cover !important;
-	overflow: hidden;
+	/* overflow: hidden; */
 }
 
 .block_1473765744433 {
@@ -7544,11 +7544,11 @@ h5.block_1473678305420 {
 	margin-bottom: 0.5em !important;
 }
 .block_1473835864949 h1.block_heading {
-	color: #0a1f54;
+	color: #fff;
 	text-align: center;
 }
 .block_1473835864949 h6.block_heading {
-	color: #9daab0;line-height: 1.8em;text-align: center;
+	color: #9daab9;line-height: 1.8em;text-align: center;
 }
 .body_style_boxed .block_1473835864949 {
 	/*overflow: visible;*/

@@ -904,6 +904,7 @@ button.sc_button_style_color_style2:not([class*="sc_button_hover_"]):hover,
 .sc_call_to_action .sc_call_to_action_title {
 	font-weight:600;
 	margin-bottom:0.85em;
+	color: #fff;
 }
 .sc_call_to_action .sc_call_to_action_title:after {
 	display:none;
