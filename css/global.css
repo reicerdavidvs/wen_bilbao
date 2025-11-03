@@ -6972,7 +6972,13 @@ button,
 }
 
 .scheme_dark .sc_section_inner {
-	color: #9daab0
+	color: #9daab0;
+
+}
+.scheme_dark .sc_section_inner.pz{
+	background-color: rgba(0, 0, 0, 0.5);
+	padding: 20px;
+	border-radius: 20px;
 }
 
 .scheme_dark .sc_services_item .sc_services_item_readmore {
