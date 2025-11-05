@@ -3403,6 +3403,11 @@ button,
 .scheme_original .sc_section_inner {
 	color: #656c77
 }
+.sc_call_to_action_info.xp{
+	padding: 20px;
+	border-radius: 20px;
+	background-color: rgba(0, 0, 0, 0.6);
+}
 
 .scheme_original .sc_services_item .sc_services_item_readmore {
 	color: #0a1f54
