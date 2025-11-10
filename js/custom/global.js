@@ -212,3 +212,91 @@ if (htmlDiv) {
 	htmlDiv.innerHTML = '<style>' + htmlDivCss + '</style>';
 	document.getElementsByTagName('head')[0].appendChild(htmlDiv.childNodes[0]);
 }
+// --------------------------------------------------------------------------------------------------------------------
+/* ========== JS: my-trending (pegar antes de </body>) ========== */
+(function(){
+  // --- Tabs ---
+  const tabs = document.querySelectorAll('.mt-tab');
+  const panels = document.querySelectorAll('.mt-panel');
+
+  function activateTab(targetTab) {
+    tabs.forEach(t => {
+      const isActive = t.dataset.tab === targetTab;
+      t.classList.toggle('active', isActive);
+      t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    panels.forEach(p => {
+      p.hidden = p.dataset.panel !== targetTab;
+    });
+  }
+
+  // Inicializa: mostrar la primera tab si hay
+  if (tabs.length) {
+    const defaultTab = tabs[0].dataset.tab;
+    activateTab(defaultTab);
+  }
+
+  tabs.forEach(t => {
+    t.addEventListener('click', () => activateTab(t.dataset.tab));
+    t.addEventListener('keydown', (e) => {
+      // navegación con flechas entre tabs
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const idx = Array.from(tabs).indexOf(t);
+        const nextIdx = e.key === 'ArrowRight' ? (idx+1)%tabs.length : (idx-1+tabs.length)%tabs.length;
+        tabs[nextIdx].focus();
+        activateTab(tabs[nextIdx].dataset.tab);
+      }
+    });
+  });
+
+  // --- Carrusel: prev/next, arrastre, teclado ---
+  document.querySelectorAll('.mt-panel').forEach(panel => {
+    const track = panel.querySelector('.mt-track');
+    const prevBtn = panel.querySelector('.mt-prev');
+    const nextBtn = panel.querySelector('.mt-next');
+    if (!track) return;
+
+    // Helper: ancho aproximado de "slide" para desplazar
+    const slideWidth = () => {
+      const card = track.querySelector('.mt-card');
+      return card ? card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).gap || 12) : 240;
+    };
+
+    // Botones
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => track.scrollBy({ left: -slideWidth(), behavior: 'smooth' }));
+      nextBtn.addEventListener('click', () => track.scrollBy({ left: slideWidth(), behavior: 'smooth' }));
+    }
+
+    // Drag to scroll (pointer events)
+    let isDown=false, startX, scrollLeft;
+    track.addEventListener('pointerdown', (e) => {
+      isDown = true; track.setPointerCapture(e.pointerId);
+      startX = e.clientX; scrollLeft = track.scrollLeft;
+      track.classList.add('dragging');
+    });
+    track.addEventListener('pointermove', (e) => {
+      if (!isDown) return;
+      const dx = e.clientX - startX;
+      track.scrollLeft = scrollLeft - dx;
+    });
+    track.addEventListener('pointerup', (e) => {
+      if (!isDown) return;
+      isDown = false; track.releasePointerCapture(e.pointerId);
+      track.classList.remove('dragging');
+    });
+    track.addEventListener('pointercancel', () => { isDown=false; track.classList.remove('dragging'); });
+
+    // Keyboard: flechas para moverse cuando el track está enfocado
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); track.scrollBy({ left: slideWidth(), behavior:'smooth' }); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); track.scrollBy({ left: -slideWidth(), behavior:'smooth' }); }
+      if (e.key === 'Home')       { track.scrollTo({ left:0, behavior:'smooth' }); }
+      if (e.key === 'End')        { track.scrollTo({ left: track.scrollWidth, behavior:'smooth' }); }
+    });
+  });
+
+})();
+
+
